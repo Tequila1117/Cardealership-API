@@ -185,7 +185,7 @@ public class VehicleDAO {
     // Get vehicle based on dealership
 
 
-     public List<Vehicle> findVehiclesByDealership(int id) throws SQLException {
+     public List<Vehicle> findVehiclesByDealership(int id) {
         List<Vehicle> vehicles = new ArrayList<>();
         int odometer, year;
         String vin, make, model, vehicleType, color;
