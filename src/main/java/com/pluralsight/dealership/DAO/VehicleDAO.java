@@ -7,6 +7,8 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Component
 public class VehicleDAO {
@@ -20,7 +22,7 @@ public class VehicleDAO {
 
     // Create a new vehicle
     public void createVehicle(Vehicle vehicle) {
-        String query = "INSERT INTO vehicles (vin, year, price, make, model, color, sold) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO vehicles (vin, year, price, make, model, color, sold, vehicle_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = datasource.getConnection()) {
              PreparedStatement stmt = connection.prepareStatement(query);
@@ -54,9 +56,10 @@ public class VehicleDAO {
                         rs.getString("vin"),
                         rs.getInt("year"),
                         rs.getDouble("price"),
-                        rs.getString("make"),
-                        rs.getString("model"),
-                        rs.getString("color"),
+                         rs.getString("make"),
+                       rs.getString("model"),
+                         rs.getString("color"),
+                        rs.getInt("odometer"),
                         rs.getBoolean("sold"),
                         rs.getString("vehicle_type")
                 );
@@ -71,9 +74,11 @@ public class VehicleDAO {
 
     // Retrieve a vehicle by VIN
     public Vehicle getVehicleByVin(String vin) {
-        Vehicle vehicle = null;
+
         String query = "SELECT * FROM vehicles WHERE vin = ?";
 
+        // declare vehicle variable and assign as null.
+        Vehicle vehicle = null;
         try (Connection connection = datasource.getConnection()) {
              PreparedStatement stmt = connection.prepareStatement(query);
 
@@ -82,15 +87,17 @@ public class VehicleDAO {
 
             if (rs.next()) {
                 vehicle = new Vehicle(
-                        rs.getString("vin"),
-                        rs.getInt("year"),
+                       rs.getString("vin"),
+               rs.getInt("year"),
                         rs.getDouble("price"),
                         rs.getString("make"),
-                        rs.getString("model"),
-                        rs.getString("color"),
-                        rs.getBoolean("sold"),
-                        rs.getString("type")
-                );
+                rs.getString("model"),
+
+                rs.getString("color"),
+                rs.getInt("odometer"),
+                rs.getBoolean("sold"),
+                        rs.getString("vehicle_type"));
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,6 +120,7 @@ public class VehicleDAO {
             stmt.setString(5, vehicle.getColor());
             stmt.setBoolean(6, vehicle.isSold());
             stmt.setString(7, vehicle.getVin());
+            stmt.setString(8, vehicle.getType());
 
             stmt.executeUpdate();
             System.out.println("Vehicle updated successfully!");
@@ -136,8 +144,13 @@ public class VehicleDAO {
         }
     }
 
+
     public List<Vehicle> findAllVehicleByPriceRange( double minPrice, double maxPrice) {
         List<Vehicle> vehicles = new ArrayList<>();
+            int odometer, year;
+            String vin, make, model, vehicleType, color;
+            double price;
+            boolean sold;
         String query = """ 
                         SELECT * FROM vehicles
                         WHERE price between ? and ?""";
@@ -149,15 +162,17 @@ public class VehicleDAO {
              ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                Vehicle vehicle = new Vehicle(
-                        rs.getString("vin"),
-                        rs.getInt("year"),
+                Vehicle vehicle = new Vehicle (
+               rs.getString("vin"),
+                rs.getInt("year"),
                         rs.getDouble("price"),
-                        rs.getString("make"),
-                        rs.getString("model"),
-                        rs.getString("color"),
-                        rs.getBoolean("sold"),
-                        rs.getString("type")
+                rs.getString("make"),
+                rs.getString("model"),
+
+                rs.getString("color"),
+                rs.getInt("odometer"),
+                rs.getBoolean("sold"),
+                        rs.getString("vehicle_type")
                 );
                 vehicles.add(vehicle);
             }
@@ -167,4 +182,44 @@ public class VehicleDAO {
 
         return vehicles;
     }
+    // Get vehicle based on dealership
+
+
+     public List<Vehicle> findVehiclesByDealership(int id) throws SQLException {
+        List<Vehicle> vehicles = new ArrayList<>();
+        int odometer, year;
+        String vin, make, model, vehicleType, color;
+        double price;
+        boolean sold;
+        String query = """
+                SELECT vin, year, make, model, color, sold, vehicle_type
+                FROM inventory
+                JOIN vehicles ON inventory.vin = vehicles.vin
+                WHERE dealership_id =?;
+                """;
+
+       try (Connection connection = datasource.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1, id);
+           ResultSet rs = stmt.executeQuery(query);
+
+           while (rs.next()) {
+               vin = rs.getString("vin");
+               year = rs.getInt("year");
+               make = rs.getString("make");
+               model = rs.getString("model");
+               price = rs.getDouble("price");
+               color = rs.getString("color");
+               odometer = rs.getInt("odometer");
+               vehicleType = rs.getString("vehicle_type");
+               sold = rs.getBoolean("sold");
+
+               vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, sold, vehicleType));
+
+           }
+       } catch (SQLException e) {
+           e.printStackTrace();
+       }
+       return vehicles;
+     }
 }

@@ -1,33 +1,32 @@
 package com.pluralsight.dealership.model;
 
 public class Vehicle {
+
     private String vin;
     private int year;
     private double price;
     private String make;
     private String model;
     private String color;
+    private final int odometer;
     private boolean sold;
     private String type; // ex. truck, suv, motorcycle
 
     // Constructor
-    public Vehicle(String vin, int year, double price, String make, String model, String color, boolean sold, String type) {
+    public Vehicle(String vin, int year, double price, String make, String model, String color, int odometer, boolean sold, String vehicle_type) {
         this.vin = vin;
         this.year = year;
         this.price = price;
         this.make = make;
         this.model = model;
         this.color = color;
+        this.odometer = odometer;
         this.sold = sold;
-        this.type = type;
+        this.type = vehicle_type;
     }
 
-    public Vehicle(String vin, String model) {
 
-    }
 
-    public Vehicle(String vin, int year, String make, String model, String type, String color, int odometer, double price, String type1) {
-    }
 
 
     // Getters and Setters
@@ -87,9 +86,8 @@ public class Vehicle {
         this.sold = sold;
     }
 
-    public Object getType() {
+    public String getType() {
     return type;
-
     }
 
 }
