@@ -73,7 +73,7 @@ public class VehicleDAO {
     }
 
     // Retrieve a vehicle by VIN
-    public Vehicle getVehicleByVin(String vin) {
+    public Vehicle findVehiclesByVin(String vin) {
 
         String query = "SELECT * FROM vehicles WHERE vin = ?";
 
@@ -107,7 +107,7 @@ public class VehicleDAO {
     }
 
     // Update a vehicle
-    public void updateVehicle(Vehicle vehicle) {
+    public void updateVehicle(Vehicle vehicle, String vin) {
         String query = "UPDATE vehicles SET year = ?, price = ?, make = ?, model = ?, color = ?, sold = ? WHERE vin = ?";
 
         try (Connection connection = datasource.getConnection()) {

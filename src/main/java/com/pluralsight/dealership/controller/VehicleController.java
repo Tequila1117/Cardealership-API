@@ -44,4 +44,16 @@ public class VehicleController {
 
         return vehicledata.findVehiclesByMakeModel(make, model);
     }
+    @PutMapping("/UpdateVehicle/{vin}")
+    public void updateVehicle(@RequestBody Vehicle vehicle, @PathVariable("vin") String vin) {
+       vehicledata.updateVehicle(vehicle, vin);
+
+    }
+
+    @GetMapping("VehicleByVin/{vin}")
+    public Vehicle findVehiclesByVin(@PathVariable("vin") String vin) {
+        return vehicledata.findVehiclesByVin(vin);
+    }
+
+
 }
