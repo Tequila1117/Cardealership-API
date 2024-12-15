@@ -20,24 +20,28 @@ public class VehicleController {
         this.vehicledata = vehicledata;
     }
 
-    @GetMapping ("/GetAllVehicles")
+    @GetMapping("/GetAllVehicles")
     public List<Vehicle> getAllVehicles() {
         return vehicledata.getAllVehicles();
 
 
-
     }
 
-    @GetMapping ("/FindVehiclesByDealership/{id}")
+    @GetMapping("/FindVehiclesByDealership/{id}")
     public List<Vehicle> findVehiclesByDealership(@PathVariable("id") int id) {
         return vehicledata.findVehiclesByDealership(id);
     }
 
-  //@ResponseStatus(HttpStatus.CREATED)
- // @PostMapping("/CreateVehicle")
-   //public void createVehicle(@RequestBody Vehicle vehicle) {
-     // vehicledata.createVehicle(vehicle);
+    //@ResponseStatus(HttpStatus.CREATED)
+    // @PostMapping("/CreateVehicle")
+    //public void createVehicle(@RequestBody Vehicle vehicle) {
+    // vehicledata.createVehicle(vehicle);
 
+
+    //}
+    @GetMapping("/VehicleMakeModel")
+    public List<Vehicle> findVehiclesByMakeModel (@RequestParam("make") String make, @RequestParam("model") String model) {
+
+        return vehicledata.findVehiclesByMakeModel(make, model);
     }
-
-//}
+}
