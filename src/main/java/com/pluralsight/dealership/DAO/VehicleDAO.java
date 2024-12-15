@@ -16,16 +16,16 @@ public class VehicleDAO {
     private DataSource datasource;
 
     //Constructor
-    public VehicleDAO( DataSource datsource ) {
-       this.datasource = datsource;
-   }
+    public VehicleDAO(DataSource datsource) {
+        this.datasource = datsource;
+    }
 
     // Create a new vehicle
     public void createVehicle(Vehicle vehicle) {
         String query = "INSERT INTO vehicles (vin, year, price, make, model, color, sold, vehicle_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = datasource.getConnection()) {
-             PreparedStatement stmt = connection.prepareStatement(query);
+            PreparedStatement stmt = connection.prepareStatement(query);
 
             stmt.setString(1, vehicle.getVin());
             stmt.setInt(2, vehicle.getYear());
@@ -56,9 +56,9 @@ public class VehicleDAO {
                         rs.getString("vin"),
                         rs.getInt("year"),
                         rs.getDouble("price"),
-                         rs.getString("make"),
-                       rs.getString("model"),
-                         rs.getString("color"),
+                        rs.getString("make"),
+                        rs.getString("model"),
+                        rs.getString("color"),
                         rs.getInt("odometer"),
                         rs.getBoolean("sold"),
                         rs.getString("vehicle_type")
@@ -80,22 +80,22 @@ public class VehicleDAO {
         // declare vehicle variable and assign as null.
         Vehicle vehicle = null;
         try (Connection connection = datasource.getConnection()) {
-             PreparedStatement stmt = connection.prepareStatement(query);
+            PreparedStatement stmt = connection.prepareStatement(query);
 
             stmt.setString(1, vin);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 vehicle = new Vehicle(
-                       rs.getString("vin"),
-               rs.getInt("year"),
+                        rs.getString("vin"),
+                        rs.getInt("year"),
                         rs.getDouble("price"),
                         rs.getString("make"),
-                rs.getString("model"),
+                        rs.getString("model"),
 
-                rs.getString("color"),
-                rs.getInt("odometer"),
-                rs.getBoolean("sold"),
+                        rs.getString("color"),
+                        rs.getInt("odometer"),
+                        rs.getBoolean("sold"),
                         rs.getString("vehicle_type"));
 
             }
@@ -111,7 +111,7 @@ public class VehicleDAO {
         String query = "UPDATE vehicles SET year = ?, price = ?, make = ?, model = ?, color = ?, sold = ? WHERE vin = ?";
 
         try (Connection connection = datasource.getConnection()) {
-             PreparedStatement stmt = connection.prepareStatement(query);
+            PreparedStatement stmt = connection.prepareStatement(query);
 
             stmt.setInt(1, vehicle.getYear());
             stmt.setDouble(2, vehicle.getPrice());
@@ -134,7 +134,7 @@ public class VehicleDAO {
         String query = "DELETE FROM vehicles WHERE vin = ?";
 
         try (Connection connection = datasource.getConnection()) {
-             PreparedStatement stmt = connection.prepareStatement(query);
+            PreparedStatement stmt = connection.prepareStatement(query);
 
             stmt.setString(1, vin);
             stmt.executeUpdate();
@@ -146,33 +146,33 @@ public class VehicleDAO {
 
 
     // Retrieve vehicles by price range (min/max)
-    public List<Vehicle> findAllVehicleByPriceRange( double minPrice, double maxPrice) {
+    public List<Vehicle> findAllVehicleByPriceRange(double minPrice, double maxPrice) {
         List<Vehicle> vehicles = new ArrayList<>();
-            int odometer, year;
-            String vin, make, model, vehicleType, color;
-            double price;
-            boolean sold;
+        int odometer, year;
+        String vin, make, model, vehicleType, color;
+        double price;
+        boolean sold;
         String query = """ 
-                        SELECT * FROM vehicles
-                        WHERE price between ? and ?""";
+                SELECT * FROM vehicles
+                WHERE price between ? and ?""";
 
         try (Connection connection = datasource.getConnection()) {
-             PreparedStatement stmt = connection.prepareStatement(query);
-             stmt.setDouble(1,minPrice);
-             stmt.setDouble(2, maxPrice);
-             ResultSet rs = stmt.executeQuery(query);
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setDouble(1, minPrice);
+            stmt.setDouble(2, maxPrice);
+            ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                Vehicle vehicle = new Vehicle (
-               rs.getString("vin"),
-                rs.getInt("year"),
+                Vehicle vehicle = new Vehicle(
+                        rs.getString("vin"),
+                        rs.getInt("year"),
                         rs.getDouble("price"),
-                rs.getString("make"),
-                rs.getString("model"),
+                        rs.getString("make"),
+                        rs.getString("model"),
 
-                rs.getString("color"),
-                rs.getInt("odometer"),
-                rs.getBoolean("sold"),
+                        rs.getString("color"),
+                        rs.getInt("odometer"),
+                        rs.getBoolean("sold"),
                         rs.getString("vehicle_type")
                 );
                 vehicles.add(vehicle);
@@ -186,7 +186,7 @@ public class VehicleDAO {
     // Get vehicle based on dealership
 
 
-     public List<Vehicle> findVehiclesByDealership(int id) {
+    public List<Vehicle> findVehiclesByDealership(int id) {
         List<Vehicle> vehicles = new ArrayList<>();
         int odometer, year;
         String vin, make, model, vehicleType, color;
@@ -199,31 +199,32 @@ public class VehicleDAO {
                 WHERE dealership_id =?;
                 """;
 
-       try (Connection connection = datasource.getConnection()) {
+        try (Connection connection = datasource.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setInt(1, id);
-           ResultSet rs = stmt.executeQuery(query);
+            ResultSet rs = stmt.executeQuery(query);
 
-           while (rs.next()) {
-               vin = rs.getString("vin");
-               year = rs.getInt("year");
-               make = rs.getString("make");
-               model = rs.getString("model");
-               price = rs.getDouble("price");
-               color = rs.getString("color");
-               odometer = rs.getInt("odometer");
-               vehicleType = rs.getString("vehicle_type");
-               sold = rs.getBoolean("sold");
+            while (rs.next()) {
+                vin = rs.getString("vin");
+                year = rs.getInt("year");
+                make = rs.getString("make");
+                model = rs.getString("model");
+                price = rs.getDouble("price");
+                color = rs.getString("color");
+                odometer = rs.getInt("odometer");
+                vehicleType = rs.getString("vehicle_type");
+                sold = rs.getBoolean("sold");
 
-               vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, sold, vehicleType));
+                vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, sold, vehicleType));
 
-           }
-       } catch (SQLException e) {
-           e.printStackTrace();
-       }
-       return vehicles;
-     }
-     //Retrieve a vehicle by make/model
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vehicles;
+    }
+
+    //Retrieve a vehicle by make/model
     public List<Vehicle> findVehiclesByMakeModel(String carMake, String carModel) {
         List<Vehicle> vehicles = new ArrayList<>();
         String vin, make, model, color, vehicleType;
@@ -261,9 +262,49 @@ public class VehicleDAO {
         return vehicles;
 
     }
-    //Retrieve Vehicle by year
 
-    // Retrieve by color++
-    // retrieve vehicle by odometer (mileage)
-    //Retrieve by vehicle type
+    //Retrieve Vehicle by year
+    public List<Vehicle> findVehicleByYear(int minYear, int maxYear) {
+        List<Vehicle> vehicles = new ArrayList<>();
+        String vin, make, model, color, vehicleType;
+        double price;
+        int year, odometer;
+        boolean sold;
+        String query = """
+                SELECT vin, year, make, model, color, vehicle_type, sold
+                FROM vehicles
+                WHERE year between ? AND ?
+                ORDER BY year DESC;
+                                
+                """;
+        try (Connection connection = datasource.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1, minYear);
+            stmt.setInt(2, maxYear);
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                vin = rs.getString("vin");
+                year = rs.getInt("year");
+                make = rs.getString("make");
+                model = rs.getString("model");
+                price = rs.getDouble("price");
+                color = rs.getString("color");
+                odometer = rs.getInt("odometer");
+                vehicleType = rs.getString("vehicle_type");
+                sold = rs.getBoolean("sold");
+                if (!sold) {
+                    vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, sold, vehicleType));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vehicles;
+
+        // Retrieve by color
+        // retrieve vehicle by odometer (mileage)
+        //Retrieve by vehicle type
+    }
 }
