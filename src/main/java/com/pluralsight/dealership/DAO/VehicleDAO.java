@@ -264,7 +264,7 @@ public class VehicleDAO {
     }
 
     //Retrieve Vehicle by year
-    public List<Vehicle> findVehicleByYear(int minYear, int maxYear) {
+    public List<Vehicle> findVehiclesByYear(int minYear, int maxYear) {
         List<Vehicle> vehicles = new ArrayList<>();
         String vin, make, model, color, vehicleType;
         double price;
@@ -303,8 +303,45 @@ public class VehicleDAO {
         }
         return vehicles;
 
-        // Retrieve by color
-        // retrieve vehicle by odometer (mileage)
-        //Retrieve by vehicle type
+
+    }
+    // Retrieve by color
+    public List<Vehicle> findVehiclesByColor(String carColor) {
+        List<Vehicle> vehicles = new ArrayList<>();
+        String vin, make, model, color, vehicleType;
+        double price;
+        int year, odometer;
+        boolean sold;
+        String query = """
+                SELECT vin, year, make, model, color, vehicle_type, sold
+                FROM vehicles
+                WHERE color = ?
+                """;
+        try (Connection connection = datasource.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, carColor);
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                vin = rs.getString("vin");
+                year = rs.getInt("year");
+                make = rs.getString("make");
+                model = rs.getString("model");
+                price = rs.getDouble("price");
+                color = rs.getString("color");
+                odometer = rs.getInt("odometer");
+                vehicleType = rs.getString("vehicle_type");
+                sold = rs.getBoolean("sold");
+                if (!sold) {
+                    vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, sold, vehicleType));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vehicles;
     }
 }
+
+// retrieve vehicle by odometer (mileage)
+//Retrieve by vehicle type
