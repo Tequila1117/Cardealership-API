@@ -33,10 +33,10 @@ public class VehicleController {
         return vehicledata.findVehiclesByDealership(id);
     }
 
-  //  @ResponseStatus(HttpStatus.CREATED)
- //   @PostMapping("/CreateVehicle")
-  //  public void createVehicle(@RequestBody Vehicle vehicle) {
-  //      vehicledata.createVehicle(vehicle);
+  //@ResponseStatus(HttpStatus.CREATED)
+ // @PostMapping("/CreateVehicle")
+   //public void createVehicle(@RequestBody Vehicle vehicle) {
+     // vehicledata.createVehicle(vehicle);
 
     }
 
