@@ -146,7 +146,7 @@ public class VehicleDAO {
 
 
     // Retrieve vehicles by price range (min/max)
-    public List<Vehicle> findAllVehicleByPriceRange(double minPrice, double maxPrice) {
+    public List<Vehicle> findVehiclesByPriceRange(double minPrice, double maxPrice) {
         List<Vehicle> vehicles = new ArrayList<>();
         int odometer, year;
         String vin, make, model, vehicleType, color;
