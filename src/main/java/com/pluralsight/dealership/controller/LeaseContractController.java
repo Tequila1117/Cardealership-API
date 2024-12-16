@@ -1,13 +1,11 @@
 package com.pluralsight.dealership.controller;
 import com.pluralsight.dealership.DAO.LeaseContractDAO;
 import com.pluralsight.dealership.model.LeaseContract;
-import com.pluralsight.dealership.model.SalesContract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.rmi.dgc.Lease;
-import java.util.ArrayList;
+
 
 @RestController
 @RequestMapping("/API")
