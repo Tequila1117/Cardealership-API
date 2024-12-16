@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
@@ -18,8 +19,8 @@ public class LeaseContractController {
         this.leasedata = leasedata;
     }
     @GetMapping("/FindLeaseContract/{id}")
-    public LeaseContract findLeaseContract(@PathVariable("id") int id) {
-        return (LeaseContract) leasedata.findLeaseContract(id);
+    public List<LeaseContract> findLeaseContract(@PathVariable("id") int id) {
+        return leasedata.findLeaseContract(id);
     }
     @PostMapping("/AddLeaseContract")
     @ResponseStatus(code = HttpStatus.CREATED)

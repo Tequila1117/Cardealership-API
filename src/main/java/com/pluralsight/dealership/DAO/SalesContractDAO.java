@@ -66,7 +66,7 @@ public class SalesContractDAO {
     public void addSalesContract(SalesContract salesContract) {
         String query = """ 
                 INSERT INTO sales_contracts (
-                vin, sale_date, sale_price, customer_name
+                vin, sale_date, sale_price, customer_name,
                 sales_tax_rate, recording_fee)
                 VALUES (?, ?, ?, ?, ?, ?);
                         """;
