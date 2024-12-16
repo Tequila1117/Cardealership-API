@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.Connection;
 
 @Component
 public class VehicleDAO {
@@ -16,8 +18,8 @@ public class VehicleDAO {
     private DataSource datasource;
 
     //Constructor
-    public VehicleDAO(DataSource datsource) {
-        this.datasource = datsource;
+    public VehicleDAO(DataSource datasource) {
+        this.datasource = datasource;
     }
 
     // Create a new vehicle
@@ -33,7 +35,7 @@ public class VehicleDAO {
             stmt.setString(4, vehicle.getMake());
             stmt.setString(5, vehicle.getModel());
             stmt.setString(6, vehicle.getColor());
-            stmt.setBoolean(7, vehicle.isSold());
+
 
             stmt.executeUpdate();
             System.out.println("Vehicle created successfully!");
@@ -60,7 +62,6 @@ public class VehicleDAO {
                         rs.getString("model"),
                         rs.getString("color"),
                         rs.getInt("odometer"),
-                        rs.getBoolean("sold"),
                         rs.getString("vehicle_type")
                 );
                 vehicles.add(vehicle);
@@ -92,10 +93,8 @@ public class VehicleDAO {
                         rs.getDouble("price"),
                         rs.getString("make"),
                         rs.getString("model"),
-
                         rs.getString("color"),
                         rs.getInt("odometer"),
-                        rs.getBoolean("sold"),
                         rs.getString("vehicle_type"));
 
             }
@@ -118,7 +117,6 @@ public class VehicleDAO {
             stmt.setString(3, vehicle.getMake());
             stmt.setString(4, vehicle.getModel());
             stmt.setString(5, vehicle.getColor());
-            stmt.setBoolean(6, vehicle.isSold());
             stmt.setString(7, vehicle.getVin());
             stmt.setString(8, vehicle.getType());
 
@@ -172,7 +170,6 @@ public class VehicleDAO {
 
                         rs.getString("color"),
                         rs.getInt("odometer"),
-                        rs.getBoolean("sold"),
                         rs.getString("vehicle_type")
                 );
                 vehicles.add(vehicle);
@@ -213,9 +210,9 @@ public class VehicleDAO {
                 color = rs.getString("color");
                 odometer = rs.getInt("odometer");
                 vehicleType = rs.getString("vehicle_type");
-                sold = rs.getBoolean("sold");
 
-                vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, sold, vehicleType));
+
+                vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, vehicleType));
 
             }
         } catch (SQLException e) {
@@ -252,7 +249,7 @@ public class VehicleDAO {
                 vehicleType = rs.getString("vehicle_type");
                 sold = rs.getBoolean("sold");
                 if (!sold) {
-                    vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, sold, vehicleType));
+                    vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, vehicleType));
 
                 }
             }
@@ -294,7 +291,7 @@ public class VehicleDAO {
                 vehicleType = rs.getString("vehicle_type");
                 sold = rs.getBoolean("sold");
                 if (!sold) {
-                    vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, sold, vehicleType));
+                    vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, vehicleType));
                 }
             }
 
@@ -332,10 +329,9 @@ public class VehicleDAO {
                 color = rs.getString("color");
                 odometer = rs.getInt("odometer");
                 vehicleType = rs.getString("vehicle_type");
-                sold = rs.getBoolean("sold");
-                if (!sold) {
-                    vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, sold, vehicleType));
-                }
+
+                    vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, vehicleType));
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -373,7 +369,7 @@ public class VehicleDAO {
                 vehicleType = rs.getString("vehicle_type");
                 sold = rs.getBoolean("sold");
                 if (!sold) {
-                    vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, sold, vehicleType));
+                    vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, vehicleType));
                 }
             }
         } catch (SQLException e) {
@@ -411,7 +407,7 @@ public class VehicleDAO {
                 vehicleType = rs.getString("vehicle_type");
                 sold = rs.getBoolean("sold");
                 if (!sold) {
-                    vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, sold, vehicleType));
+                    vehicles.add(new Vehicle(vin, year, price, make, model, color, odometer, vehicleType));
                 }
 
             }

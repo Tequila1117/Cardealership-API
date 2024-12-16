@@ -9,11 +9,11 @@ public class Vehicle {
     private String model;
     private String color;
     private final int odometer;
-    private boolean sold;
+
     private String type; // ex. truck, suv, motorcycle
 
     // Constructor
-    public Vehicle(String vin, int year, double price, String make, String model, String color, int odometer, boolean sold, String vehicle_type) {
+    public Vehicle(String vin, int year, double price, String make, String model, String color, int odometer, String vehicle_type) {
         this.vin = vin;
         this.year = year;
         this.price = price;
@@ -21,7 +21,7 @@ public class Vehicle {
         this.model = model;
         this.color = color;
         this.odometer = odometer;
-        this.sold = sold;
+
         this.type = vehicle_type;
     }
 
@@ -78,16 +78,10 @@ public class Vehicle {
         this.color = color;
     }
 
-    public boolean isSold() {
-        return sold;
-    }
 
-    public void setSold(boolean sold) {
-        this.sold = sold;
-    }
 
     public String getType() {
-    return type;
+        return type;
     }
 
 }

@@ -6,16 +6,16 @@ public class SalesContract extends Contract {
     private static final double ProcessingFeeUnder50000 = 295; // Fee for vehicles under $50,000
     private static final double ProcessingFeeAbove50000 = 495; // Fee for vehicles $50,000 and above
 
-    private String financingOption; // Financing option (YES/NO)
+    protected boolean isFinanced;
+    protected boolean vehicleSold;
     private double salesTaxAmount;
     private double processingFee; // Processing fee based on vehicle price
     private double totalPrice; // Total price of the sale
     private double monthlyPayment;
 
     // Constructor
-    public SalesContract(String date, String customerName, String customerEmail, Vehicle vehicleSold, String financingOption) {
+    public SalesContract(String date, String customerName, String customerEmail, Vehicle vehicleSold, boolean isFinanced) {
         super(date, customerName, customerEmail, vehicleSold);
-        this.financingOption = financingOption;
         this.salesTaxAmount = calculateSalesTax();
         this.processingFee = calculateProcessingFee();
         this.totalPrice = calculateTotalPrice();
@@ -40,7 +40,7 @@ public class SalesContract extends Contract {
 
     // Calculate monthly payment based on financing option
     private double calculateMonthlyPayment() {
-        if ("YES".equalsIgnoreCase(financingOption)) {
+        if ("YES".equalsIgnoreCase(String.valueOf(isFinanced))) {
             double interestRate = getVehicleSold().getPrice() >= 10000 ? 0.0425 : 0.0525;
             int months = getVehicleSold().getPrice() >= 10000 ? 48 : 24;
             return (totalPrice * interestRate / months);
@@ -54,7 +54,7 @@ public class SalesContract extends Contract {
         return getVehicleSold().getVin();
     }
 
-    public java.sql.Date getSaleDate() {
+    public String getSaleDate() {
         // Assuming 'date' is stored in 'Contract' as a String, convert it to SQL Date
         return java.sql.Date.valueOf(getDate());
     }
@@ -76,7 +76,7 @@ public class SalesContract extends Contract {
     }
 
     public boolean isFinanced() {
-        return "YES".equalsIgnoreCase(financingOption);
+        return "YES".equalsIgnoreCase(String.valueOf(isFinanced));
     }
 
     @Override

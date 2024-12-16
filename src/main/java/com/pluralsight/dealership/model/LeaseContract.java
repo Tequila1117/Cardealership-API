@@ -5,9 +5,9 @@ public class LeaseContract extends Contract {
     private final double expectedEndingValue; // Expected ending value at the end of the lease
 
     // Constructor to initialize a lease contract
-    public LeaseContract(String date, String customerName, String customerEmail, Vehicle vehicle) {
-        super(date, customerName, customerEmail, vehicle);
-        this.expectedEndingValue = vehicle.getPrice() * 0.5; // Calculate expected ending value (50% of original price)
+    public LeaseContract(String date, String customerName, String customerEmail, Vehicle vehicleSold) {
+        super(date, customerName, customerEmail, vehicleSold);
+        this.expectedEndingValue = vehicleSold.getPrice() * 0.5; // Calculate expected ending value (50% of original price)
     }
 
     // Calculate total price including lease fee
@@ -39,6 +39,6 @@ public class LeaseContract extends Contract {
     // Get expected ending value
     public double getExpectedEndingValue() {
         return expectedEndingValue;
-        // Keep this if it's used elsewhere
+
     }
 }
