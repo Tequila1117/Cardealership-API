@@ -46,7 +46,7 @@ public class SalesContract extends Contract {
             return (totalPrice * interestRate / months);
         }
 
-        return 0.0; // No financing means no monthly payment
+        return 0.0;
     }
 
     // Getters
@@ -55,8 +55,8 @@ public class SalesContract extends Contract {
     }
 
     public String getSaleDate() {
-        // Assuming 'date' is stored in 'Contract' as a String, convert it to SQL Date
-        return java.sql.Date.valueOf(getDate());
+
+        return getSaleDate();
     }
 
     public double getSalePrice() {

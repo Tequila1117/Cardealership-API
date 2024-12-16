@@ -24,7 +24,7 @@ public class SalesContractDAO {
     public ArrayList<SalesContract> findSalesContract(int id) {
         String query = """
                 SELECT * FROM sales_contract
-                JOIN vehicle ON sales_contracts.vin = vehicles.vin
+                JOIN vehicle ON vehicles.vin = sales_contracts.vin
                 WHERE contracts_id = ?;
                 """;
         ArrayList<SalesContract> salesContracts = new ArrayList<>();
