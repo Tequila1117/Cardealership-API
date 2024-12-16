@@ -1,8 +1,8 @@
 package com.pluralsight.dealership.DAO;
 
 import com.pluralsight.dealership.model.LeaseContract;
-import com.pluralsight.dealership.model.SalesContract;
 import com.pluralsight.dealership.model.Vehicle;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class LeaseContractDAO {
     private DataSource datasource;
 
